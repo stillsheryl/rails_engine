@@ -25,6 +25,9 @@ describe "Merchants API" do
 
       merchant_data = merchant[:attributes]
 
+      expect(merchant_data).to have_key(:id)
+      expect(merchant_data[:id]).to be_a(Integer)
+      
       expect(merchant_data).to have_key(:name)
       expect(merchant_data[:name]).to be_a(String)
     end
@@ -35,12 +38,27 @@ describe "Merchants API" do
 
     get "/api/v1/merchants/#{id}"
 
-    merchant = JSON.parse(response.body, symbolize_names: true)
+    json = JSON.parse(response.body, symbolize_names: true)
+    merchant = json[:data]
 
     expect(response).to be_successful
 
-    expect(merchant).to have_key(:name)
-    expect(merchant[:name]).to be_a(String)
+    expect(merchant).to have_key(:id)
+    expect(merchant[:id]).to be_a(String)
+
+    expect(merchant).to have_key(:type)
+    expect(merchant[:type]).to be_a(String)
+
+    expect(merchant).to have_key(:attributes)
+    expect(merchant[:attributes]).to be_a(Hash)
+
+    merchant_data = merchant[:attributes]
+
+    expect(merchant_data).to have_key(:id)
+    expect(merchant_data[:id]).to be_a(Integer)
+
+    expect(merchant_data).to have_key(:name)
+    expect(merchant_data[:name]).to be_a(String)
   end
 
   it "can create a new merchant" do
