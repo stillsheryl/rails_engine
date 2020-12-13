@@ -1,7 +1,11 @@
 require 'rails_helper'
+require 'database_cleaner/active_record'
+
+DatabaseCleaner.strategy = :transaction
 
 describe "Merchants API" do
   it "sends a list of merchants", type: :request do
+    DatabaseCleaner.start
     create_list(:merchant, 3)
 
     get '/api/v1/merchants'
@@ -31,9 +35,11 @@ describe "Merchants API" do
       expect(merchant_data).to have_key(:name)
       expect(merchant_data[:name]).to be_a(String)
     end
+    DatabaseCleaner.clean
   end
 
   it "can get one merchant by its id" do
+    DatabaseCleaner.start
     id = create(:merchant).id
 
     get "/api/v1/merchants/#{id}"
@@ -59,9 +65,12 @@ describe "Merchants API" do
 
     expect(merchant_data).to have_key(:name)
     expect(merchant_data[:name]).to be_a(String)
+
+    DatabaseCleaner.clean
   end
 
   it "can create a new merchant" do
+    DatabaseCleaner.start
     merchant_params = {
       name: "Bill's Barbour Shop"
       }
@@ -94,9 +103,12 @@ describe "Merchants API" do
 
     expect(merchant_data).to have_key(:name)
     expect(merchant_data[:name]).to be_a(String)
+
+    DatabaseCleaner.clean
   end
 
   it "can update an existing merchant" do
+    DatabaseCleaner.start
     id = create(:merchant).id
     previous_name = Merchant.last.name
     merchant_params = { name: "Sally's Donuts" }
@@ -131,6 +143,8 @@ describe "Merchants API" do
 
     expect(merchant_data).to have_key(:name)
     expect(merchant_data[:name]).to be_a(String)
+
+    DatabaseCleaner.clean
   end
 
   it "can delete a merchant" do
