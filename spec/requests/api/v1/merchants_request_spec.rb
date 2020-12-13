@@ -8,13 +8,25 @@ describe "Merchants API" do
 
     expect(response).to be_successful
 
-    merchants = JSON.parse(response.body, symbolize_names: true)
+    json = JSON.parse(response.body, symbolize_names: true)
+    merchants = json[:data]
 
     expect(merchants.count).to eq(3)
 
     merchants.each do |merchant|
-      expect(merchant).to have_key(:name)
-      expect(merchant[:name]).to be_a(String)
+      expect(merchant).to have_key(:id)
+      expect(merchant[:id]).to be_a(String)
+
+      expect(merchant).to have_key(:type)
+      expect(merchant[:type]).to be_a(String)
+
+      expect(merchant).to have_key(:attributes)
+      expect(merchant[:attributes]).to be_a(Hash)
+
+      merchant_data = merchant[:attributes]
+
+      expect(merchant_data).to have_key(:name)
+      expect(merchant_data[:name]).to be_a(String)
     end
   end
 
@@ -32,12 +44,13 @@ describe "Merchants API" do
   end
 
   it "can create a new merchant" do
-    merchant_params = ({
+    merchant_params = {
       name: "Bill's Barbour Shop"
-      })
+      }
     headers = {"CONTENT_TYPE" => "application/json"}
 
-    post '/api/v1/merchants', headers: headers, params: JSON.generate(merchant: merchant_params)
+    post '/api/v1/merchants', headers: headers, params: JSON.generate(
+      merchant_params)
     created_merchant = Merchant.last
 
     expect(response).to be_successful
@@ -51,7 +64,7 @@ describe "Merchants API" do
     merchant_params = { name: "Sally's Donuts" }
     headers = {"CONTENT_TYPE" => "application/json"}
 
-    patch "/api/v1/merchants/#{id}", headers: headers, params: JSON.generate({merchant: merchant_params})
+    patch "/api/v1/merchants/#{id}", headers: headers, params: JSON.generate(merchant_params)
     updated_merchant = Merchant.find_by(id: id)
 
     expect(response).to be_successful
