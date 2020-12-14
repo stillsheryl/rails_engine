@@ -140,4 +140,54 @@ describe "Items API" do
 
     DatabaseCleaner.clean
   end
+
+  it "can update an existing item", type: :request do
+    DatabaseCleaner.start
+    id = create(:item).id
+    previous_item_name = Item.last.name
+
+    headers = {"CONTENT_TYPE" => "application/json"}
+    item_params = {
+      name: "Shovel"
+    }
+
+    patch "/api/v1/items/#{id}", headers: headers, params: JSON.generate(item_params)
+    updated_item = Item.find_by(id: id)
+
+    expect(updated_item.name).to eq(item_params[:name])
+    expect(updated_item.name).to_not eq(previous_item_name)
+
+    json = JSON.parse(response.body, symbolize_names: true)
+    item = json[:data]
+
+    expect(response).to be_successful
+
+    expect(item).to have_key(:id)
+    expect(item[:id]).to be_a(String)
+
+    expect(item).to have_key(:type)
+    expect(item[:type]).to be_a(String)
+
+    expect(item).to have_key(:attributes)
+    expect(item[:attributes]).to be_a(Hash)
+
+    item_data = item[:attributes]
+
+    expect(item_data).to have_key(:id)
+    expect(item_data[:id]).to be_a(Integer)
+
+    expect(item_data).to have_key(:name)
+    expect(item_data[:name]).to be_a(String)
+
+    expect(item_data).to have_key(:description)
+    expect(item_data[:description]).to be_a(String)
+
+    expect(item_data).to have_key(:unit_price)
+    expect(item_data[:unit_price]).to be_a(Float)
+
+    expect(item_data).to have_key(:merchant_id)
+    expect(item_data[:merchant_id]).to be_an(Integer)
+
+    DatabaseCleaner.clean
+  end
 end
