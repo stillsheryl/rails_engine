@@ -76,8 +76,7 @@ describe "Merchants API" do
       }
     headers = {"CONTENT_TYPE" => "application/json"}
 
-    post '/api/v1/merchants', headers: headers, params: JSON.generate(
-      merchant_params)
+    post '/api/v1/merchants', headers: headers, params: JSON.generate(merchant_params)
     created_merchant = Merchant.last
 
     expect(created_merchant.name).to eq(merchant_params[:name])
