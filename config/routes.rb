@@ -8,7 +8,11 @@ Rails.application.routes.draw do
           resources :items, only: [:index]
         end
       end
-      resources :items, only: [:index, :show, :create, :update, :destroy]
+      resources :items, only: [:index, :show, :create, :update, :destroy] do
+        scope module: :items do
+          resources :merchants, only: [:index]
+        end
+      end
     end
   end
 end
