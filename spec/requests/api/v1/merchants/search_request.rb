@@ -9,6 +9,7 @@ describe "Merchants API", type: :request do
     merchant1 = Merchant.create!(name: "Molly's Muffins")
     merchant2 = Merchant.create!(name: "Ted's Televisions")
     merchant3 = Merchant.create!(name: "Koepp LLC")
+    merchant4 = Merchant.create!(name: "GetIt LLC")
 
     headers = {"CONTENT_TYPE" => "application/json"}
     params = {"keyword" => "LLC"}
@@ -20,7 +21,9 @@ describe "Merchants API", type: :request do
 
     expect(response).to be_successful
 
-    expect(merchants.first[:attributes][:id]).to eq(merchant3.id)
+    expect(merchants.first[:attributes][:id]).to eq(merchant3.id).or(eq(merchant4.id))
+    expect(merchants.second[:attributes][:id]).to eq(merchant4.id).or(eq(merchant3.id))
+
 
     merchant = merchants.first
 
@@ -49,7 +52,6 @@ describe "Merchants API", type: :request do
     merchant1 = Merchant.create!(name: "Molly's Muffins")
     merchant2 = Merchant.create!(name: "Ted's Televisions")
     merchant3 = Merchant.create!(name: "Koepp LLC")
-    merchant4 = Merchant.create!(name: "GetIt LLC")
 
     headers = {"CONTENT_TYPE" => "application/json"}
     params = {"keyword" => "llc"}
@@ -61,8 +63,7 @@ describe "Merchants API", type: :request do
 
     expect(response).to be_successful
 
-    expect(merchants.first[:attributes][:id]).to eq(merchant3.id).or(eq(merchant4.id))
-    expect(merchants.second[:attributes][:id]).to eq(merchant4.id).or(eq(merchant3.id))
+    expect(merchants.first[:attributes][:id]).to eq(merchant3.id)
 
     merchant = merchants.first
 
