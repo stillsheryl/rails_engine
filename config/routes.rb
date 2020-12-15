@@ -5,11 +5,11 @@ Rails.application.routes.draw do
     namespace :v1 do
 
       scope :merchants, module: :merchants do
-        resources :search, :path => "/find", only: [:index]
+        resources :search, :path => "/find_all", only: [:index]
       end
 
       scope :items, module: :items do
-        resources :search, :path => "/find", only: [:index]
+        resources :search, :path => "/find_all", only: [:index]
       end
 
       resources :merchants, only: [:index, :show, :create, :update, :destroy] do

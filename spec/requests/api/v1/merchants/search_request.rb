@@ -14,7 +14,7 @@ describe "Merchants API", type: :request do
     headers = {"CONTENT_TYPE" => "application/json"}
     params = {"keyword" => "LLC"}
 
-    get '/api/v1/merchants/find', headers: headers, params: params
+    get '/api/v1/merchants/find_all', headers: headers, params: params
 
     json = JSON.parse(response.body, symbolize_names: true)
     merchants = json[:data]
@@ -56,7 +56,7 @@ describe "Merchants API", type: :request do
     headers = {"CONTENT_TYPE" => "application/json"}
     params = {"keyword" => "llc"}
 
-    get '/api/v1/merchants/find', headers: headers, params: params
+    get '/api/v1/merchants/find_all', headers: headers, params: params
 
     json = JSON.parse(response.body, symbolize_names: true)
     merchants = json[:data]
@@ -96,7 +96,7 @@ describe "Merchants API", type: :request do
     headers = {"CONTENT_TYPE" => "application/json"}
     params = {"keyword" => "tele"}
 
-    get '/api/v1/merchants/find', headers: headers, params: params
+    get '/api/v1/merchants/find_all', headers: headers, params: params
 
     json = JSON.parse(response.body, symbolize_names: true)
     merchants = json[:data]
