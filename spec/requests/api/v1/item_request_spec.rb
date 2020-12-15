@@ -3,8 +3,8 @@ require 'database_cleaner/active_record'
 
 DatabaseCleaner.strategy = :transaction
 
-describe "Items API" do
-  it "sends a list of items", type: :request do
+describe "Items API", type: :request do
+  it "sends a list of items" do
     DatabaseCleaner.start
     create_list(:item, 3)
 
