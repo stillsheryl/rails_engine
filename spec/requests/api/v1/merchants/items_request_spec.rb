@@ -3,7 +3,7 @@ require 'database_cleaner/active_record'
 
 DatabaseCleaner.strategy = :transaction
 
-describe "text" do
+describe "Merchants API" do
   it "merchant can display its items" do
     DatabaseCleaner.start
     merchant = create(:merchant, :with_items, items: 3)
