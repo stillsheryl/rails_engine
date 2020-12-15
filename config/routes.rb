@@ -8,6 +8,10 @@ Rails.application.routes.draw do
         resources :search, :path => "/find", only: [:index]
       end
 
+      scope :items, module: :items do
+        resources :search, :path => "/find", only: [:index]
+      end
+
       resources :merchants, only: [:index, :show, :create, :update, :destroy] do
         scope module: :merchants do
           resources :items, only: [:index]
