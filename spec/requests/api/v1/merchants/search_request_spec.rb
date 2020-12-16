@@ -12,7 +12,7 @@ describe "Merchants API", type: :request do
     merchant4 = Merchant.create!(name: "GetIt LLC")
 
     headers = {"CONTENT_TYPE" => "application/json"}
-    params = {"keyword" => "LLC"}
+    params = {"name" => "LLC"}
 
     get '/api/v1/merchants/find_all', headers: headers, params: params
 
@@ -54,7 +54,7 @@ describe "Merchants API", type: :request do
     merchant3 = Merchant.create!(name: "Koepp LLC")
 
     headers = {"CONTENT_TYPE" => "application/json"}
-    params = {"keyword" => "llc"}
+    params = {"name" => "llc"}
 
     get '/api/v1/merchants/find_all', headers: headers, params: params
 
@@ -94,7 +94,7 @@ describe "Merchants API", type: :request do
     merchant3 = Merchant.create!(name: "Koepp LLC")
 
     headers = {"CONTENT_TYPE" => "application/json"}
-    params = {"keyword" => "tele"}
+    params = {"name" => "tele"}
 
     get '/api/v1/merchants/find_all', headers: headers, params: params
 
@@ -129,12 +129,12 @@ describe "Merchants API", type: :request do
 
   it "search can find results from date" do
     DatabaseCleaner.start
-    merchant1 = Merchant.create!(name: "Molly's Muffins")
+    merchant1 = Merchant.create!(name: "Molly's Muffins", created_at: "2012-03-27 14:54:00")
     merchant2 = Merchant.create!(name: "Ted's Televisions")
     merchant3 = Merchant.create!(name: "Koepp LLC")
 
     headers = {"CONTENT_TYPE" => "application/json"}
-    params = {"keyword" => "12-15-2020"}
+    params = {"created_at" => "2012-03-27 14:54:00"}
 
     get '/api/v1/merchants/find_all', headers: headers, params: params
 
@@ -143,7 +143,7 @@ describe "Merchants API", type: :request do
 
     expect(response).to be_successful
 
-    expect(merchants.first[:attributes][:id]).to eq(merchant2.id)
+    expect(merchants.first[:attributes][:id]).to eq(merchant1.id)
 
     merchant = merchants.first
 
