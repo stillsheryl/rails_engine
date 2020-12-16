@@ -8,7 +8,7 @@ class  Api::V1::Merchants::SearchController < ApplicationController
       merchant_results = Merchant.where(:created_at => keyword)
     elsif params["updated_at"] != nil
       keyword = params["updated_at"].to_datetime
-      merchant_results = Merchant.where(:created_at => keyword)
+      merchant_results = Merchant.where(:updated_at => keyword)
     end
     render json: MerchantSerializer.new(merchant_results)
   end
