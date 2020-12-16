@@ -127,14 +127,14 @@ describe "Merchants API", type: :request do
     DatabaseCleaner.clean
   end
 
-  xit "search can find results from date" do
+  it "search can find results from date" do
     DatabaseCleaner.start
     merchant1 = Merchant.create!(name: "Molly's Muffins")
     merchant2 = Merchant.create!(name: "Ted's Televisions")
     merchant3 = Merchant.create!(name: "Koepp LLC")
 
     headers = {"CONTENT_TYPE" => "application/json"}
-    params = {"keyword" => "2020-12-15"}
+    params = {"keyword" => "12-15-2020"}
 
     get '/api/v1/merchants/find_all', headers: headers, params: params
 
