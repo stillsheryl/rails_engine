@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       end
 
       get '/merchants/most_revenue', to: 'merchants#most_revenue'
+      get '/merchants/:id/revenue', to: 'merchants#revenue'
 
       resources :merchants, only: [:index, :show, :create, :update, :destroy] do
         scope module: :merchants do
