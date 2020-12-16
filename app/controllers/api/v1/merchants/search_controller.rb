@@ -1,10 +1,9 @@
 class  Api::V1::Merchants::SearchController < ApplicationController
   def index
     keyword = params[:keyword].downcase
-
+    # ((DateTime.parse(keyword) rescue ArgumentError) == ArgumentError)
     if keyword.is_a?(Date)
-      merchant_results = (Merchant.where("DATE(created_at) LIKE ?", "%#{keyword}%"))
-      .or(Merchant.where("DATE(updated_at) LIKE ?", "%#{keyword}%"))
+      merchant_results = Merchant.where("DATE(created_at) LIKE ?", "%#{keyword}%").or(Merchant.where("DATE(updated_at) LIKE ?", "%#{keyword}%"))
     else
       merchant_results = Merchant.where("LOWER(name) LIKE ?", "%#{keyword}%")
     end
