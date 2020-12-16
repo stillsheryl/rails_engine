@@ -1,11 +1,14 @@
 class  Api::V1::Merchants::SearchController < ApplicationController
   def index
-    keyword = params[:keyword].downcase
-    # ((DateTime.parse(keyword) rescue ArgumentError) == ArgumentError)
-    if keyword.is_a?(Date)
-      merchant_results = Merchant.where("DATE(created_at) LIKE ?", "%#{keyword}%").or(Merchant.where("DATE(updated_at) LIKE ?", "%#{keyword}%"))
-    else
+    if params["name"] != nil
+      keyword = params["name"].downcase
       merchant_results = Merchant.where("LOWER(name) LIKE ?", "%#{keyword}%")
+    elsif params["created_at"] != nil
+      keyword = params["created_at"].to_datetime
+      merchant_results = Merchant.where(:created_at => keyword)
+    elsif params["updated_at"] != nil
+      keyword = params["updated_at"].to_datetime
+      merchant_results = Merchant.where(:created_at => keyword)
     end
     render json: MerchantSerializer.new(merchant_results)
   end
