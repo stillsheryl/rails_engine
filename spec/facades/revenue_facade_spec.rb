@@ -51,12 +51,12 @@ describe RevenueFacade do
     @invoice7.transactions.create!(credit_card_number: "1234-5678-9012-3456", credit_card_expiration_date: "12/24", result: "success")
   end
 
-  xit "returns revenue for single merchant" do
+  it "returns revenue for single merchant" do
     revenue = RevenueFacade.merchant_total_revenue(@merchant1.id)
 
     expect(revenue).to be_an_instance_of(Revenue)
     expect(revenue.id).to eq(nil)
-    expect(revenue.revenue).to be_an_instance_of(ActiveRecord::AssociationRelation)
+    expect(revenue.revenue).to eq(1617.52)
   end
 
   xit "returns revenue for specified number of merchants" do
