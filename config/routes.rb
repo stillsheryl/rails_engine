@@ -8,9 +8,13 @@ Rails.application.routes.draw do
         resources :search, :path => "/find_all", only: [:index]
       end
 
+      get '/merchants/find', to: 'merchants/search#show'
+
       scope :items, module: :items do
         resources :search, :path => "/find_all", only: [:index]
       end
+
+      get '/items/find', to: 'items/search#show'
 
       get '/merchants/most_revenue', to: 'merchants#most_revenue'
       get '/merchants/:id/revenue', to: 'merchants#revenue'
