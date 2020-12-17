@@ -44,6 +44,7 @@ describe "Merchants API", type: :request do
 
     expect(response).to be_successful
 
+    expect(merchant[:id]).to eq(nil)
     expect(merchant[:attributes][:revenue].to_f.round(2)).to eq(1617.52)
 
     DatabaseCleaner.clean

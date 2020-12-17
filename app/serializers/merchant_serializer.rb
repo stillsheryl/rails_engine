@@ -4,7 +4,7 @@ class MerchantSerializer
 
   has_many :items
 
-  attribute :revenue do |object|
-    object.total_revenue
-  end
+  # attribute :revenue do |object|
+  #   object.total_revenue
+  # end
 end

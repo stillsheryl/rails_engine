@@ -51,12 +51,12 @@ RSpec.describe Merchant, type: :model do
       @invoice6.transactions.create!(credit_card_number: "1234-5678-9012-3456", credit_card_expiration_date: "12/24", result: "success")
     end
 
-    xit "total_revenue" do
+    it "total_revenue" do
       expect(@merchant1.total_revenue.round(2)).to eq(1617.52)
       expect(@merchant2.total_revenue.round(2)).to eq(24.98)
     end
 
-    xit "total_revenue(limit)" do
+    it "total_revenue(limit)" do
       expect(Merchant.total_revenue(2)).to eq([1617.52, 24.98])
     end
   end

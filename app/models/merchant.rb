@@ -8,12 +8,23 @@ class Merchant < ApplicationRecord
     invoices = self.invoices
     .select("sum(invoice_items.quantity * invoice_items.unit_price) AS revenue")
     .joins(:transactions, :invoice_items)
-    .where("invoices.status = 'shipped' AND transactions.result = 'success' AND invoices.merchant_id = '#{self.id}'")
+    .where("invoices.merchant_id = '#{self.id}'")
+    .merge(Transaction.successful)
+    .merge(Invoice.shipped)
     .group(:id)
     .order("revenue DESC")
 
     invoices.sum do |rev|
       rev.revenue
     end
+  end
+
+  def self.total_revenue(limit)
+    self.select("sum(invoice_items.quantity * invoice_items.unit_price) AS revenue")
+    .joins(:transactions, :invoice_items)
+    .merge(Transaction.successful)
+    .merge(Invoice.shipped)
+    .group(:id)
+    .order("revenue DESC")
   end
 end
