@@ -4,7 +4,7 @@ require 'database_cleaner/active_record'
 DatabaseCleaner.strategy = :transaction
 
 describe "Merchants API", type: :request do
-  it "item can display the merchant's total revenue" do
+  it "can display the merchant's total revenue" do
     DatabaseCleaner.start
 
     merchant = Merchant.create!(name: "Ken's Bike Shop")

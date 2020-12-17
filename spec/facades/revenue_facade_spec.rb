@@ -56,7 +56,7 @@ describe RevenueFacade do
 
     expect(revenue).to be_an_instance_of(Revenue)
     expect(revenue.id).to eq(nil)
-    expect(revenue.revenue).to eq(1617.52)
+    expect(revenue.revenue).to be_an_instance_of(ActiveRecord::AssociationRelation)
   end
 
   xit "returns revenue for specified number of merchants" do

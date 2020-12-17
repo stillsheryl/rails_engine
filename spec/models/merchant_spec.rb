@@ -59,9 +59,9 @@ RSpec.describe Merchant, type: :model do
     end
 
     it "total_revenue" do
-      expect(@merchant1.total_revenue.round(2)).to eq(1617.52)
-      expect(@merchant2.total_revenue.round(2)).to eq(24.98)
-      expect(@merchant3.total_revenue.round(2)).to eq(5000.00)
+      expect(@merchant1.total_revenue).to eq(1617.52)
+      expect(@merchant2.total_revenue).to eq(24.98)
+      expect(@merchant3.total_revenue).to eq(5000.00)
     end
 
     it "most_revenue(limit)" do
