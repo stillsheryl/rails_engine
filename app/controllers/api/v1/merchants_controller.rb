@@ -20,8 +20,7 @@ class Api::V1::MerchantsController < ApplicationController
   end
 
   def revenue
-    require "pry"; binding.pry
-    render json: RevenueSerializer.new(RevenueFacade.merchant_total_revenue(params[:id]))
+    render json: RevenueSerializer.new(Merchant.find(params[:id]).total_revenue[0])
   end
 
   def most_revenue
