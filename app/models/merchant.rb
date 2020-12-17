@@ -20,11 +20,12 @@ class Merchant < ApplicationRecord
   end
 
   def self.total_revenue(limit)
-    self.select("sum(invoice_items.quantity * invoice_items.unit_price) AS revenue")
+    self.select("merchants.*, sum(invoice_items.quantity * invoice_items.unit_price) AS revenue")
     .joins(:transactions, :invoice_items)
     .merge(Transaction.successful)
     .merge(Invoice.shipped)
     .group(:id)
     .order("revenue DESC")
+    .limit(limit)
   end
 end

@@ -20,11 +20,13 @@ class Api::V1::MerchantsController < ApplicationController
   end
 
   def revenue
-    render json: RevenueSerializer.new(RevenueFacade.merchant_total_revenue(params[:id]))
+    # render json: RevenueSerializer.new(RevenueFacade.merchant_total_revenue(params[:id]))
+    render json: RevenueSerializer.new(Merchant.find(params[:id]).total_revenue)
   end
 
   def most_revenue
-
+    # render json: RevenueSerializer.new(RevenueFacade.total_revenue(params[:quantity]))
+    render json: RevenueSerializer.new(Merchant.total_revenue(params[:quantity]))
   end
 
   private
