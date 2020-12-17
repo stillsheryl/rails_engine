@@ -19,20 +19,20 @@ RSpec.describe Merchant, type: :model do
         description: "Helps keep your shoes on",
         unit_price: 4.55)
       @tire = @merchant1.items.create!(name: "Tire",
-          description: "It's round",
-          unit_price: 12.99)
+        description: "It's round",
+        unit_price: 12.99)
       @bike = @merchant1.items.create!(name: "Bike",
-            description: "Ride around on it",
-            unit_price: 799.99)
+        description: "Ride around on it",
+        unit_price: 799.99)
       @book = @merchant2.items.create!(name: "Book",
-              description: "Learn all the things",
-              unit_price: 9.99)
+        description: "Learn all the things",
+        unit_price: 9.99)
       @magazine = @merchant2.items.create!(name: "Magazine",
-                description: "All the gossip",
-                unit_price: 5.00)
+        description: "All the gossip",
+        unit_price: 5.00)
       @ring = @merchant3.items.create!(name: "Diamond Ring",
-                          description: "Frosting for your finger",
-                          unit_price: 5000.00)
+        description: "Frosting for your finger",
+        unit_price: 5000.00)
       @invoice1 = @merchant1.invoices.create!(customer_id: @customer1.id, status: "shipped")
       @invoice2 = @merchant1.invoices.create!(customer_id: @customer2.id, status: "shipped")
       @invoice3 = @merchant1.invoices.create!(customer_id: @customer3.id, status: "shipped")
@@ -59,9 +59,18 @@ RSpec.describe Merchant, type: :model do
     end
 
     it "total_revenue" do
-      expect(@merchant1.total_revenue).to eq(1617.52)
-      expect(@merchant2.total_revenue).to eq(24.98)
-      expect(@merchant3.total_revenue).to eq(5000.00)
+      result1 = @merchant1.total_revenue
+      result2 = @merchant2.total_revenue
+      result3 = @merchant3.total_revenue
+
+      expect(result1).to be_an_instance_of(Invoice)
+      expect(result1.revenue).to eq(1617.52)
+
+      expect(result2).to be_an_instance_of(Invoice)
+      expect(result2.revenue).to eq(24.98)
+
+      expect(result3).to be_an_instance_of(Invoice)
+      expect(result3.revenue).to eq(5000)
     end
 
     it "most_revenue(limit)" do
