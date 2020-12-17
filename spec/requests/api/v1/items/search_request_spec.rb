@@ -3,8 +3,8 @@ require 'database_cleaner/active_record'
 
 DatabaseCleaner.strategy = :transaction
 
-describe "Merchants API", type: :request do
-  it "item can display merchant results from a keyword search" do
+describe "Items API", type: :request do
+  it "can display item results from a keyword search" do
     DatabaseCleaner.start
     merchant = Merchant.create!(name: "Molly's Muffins")
 
@@ -22,6 +22,7 @@ describe "Merchants API", type: :request do
 
     expect(response).to be_successful
 
+    expect(items.count).to eq(2)
     expect(items.first[:attributes][:id]).to eq(item2.id).or(eq(item3.id))
     expect(items.second[:attributes][:id]).to eq(item3.id).or(eq(item2.id))
 
@@ -43,6 +44,15 @@ describe "Merchants API", type: :request do
 
     expect(item_data).to have_key(:name)
     expect(item_data[:name]).to be_a(String)
+
+    expect(item_data).to have_key(:description)
+    expect(item_data[:description]).to be_a(String)
+
+    expect(item_data).to have_key(:unit_price)
+    expect(item_data[:unit_price]).to be_a(Float)
+
+    expect(item_data).to have_key(:merchant_id)
+    expect(item_data[:merchant_id]).to be_a(Integer)
 
     DatabaseCleaner.clean
   end
@@ -86,6 +96,15 @@ describe "Merchants API", type: :request do
     expect(item_data).to have_key(:name)
     expect(item_data[:name]).to be_a(String)
 
+    expect(item_data).to have_key(:description)
+    expect(item_data[:description]).to be_a(String)
+
+    expect(item_data).to have_key(:unit_price)
+    expect(item_data[:unit_price]).to be_a(Float)
+
+    expect(item_data).to have_key(:merchant_id)
+    expect(item_data[:merchant_id]).to be_a(Integer)
+
     DatabaseCleaner.clean
   end
 
@@ -127,6 +146,15 @@ describe "Merchants API", type: :request do
 
     expect(item_data).to have_key(:name)
     expect(item_data[:name]).to be_a(String)
+
+    expect(item_data).to have_key(:description)
+    expect(item_data[:description]).to be_a(String)
+
+    expect(item_data).to have_key(:unit_price)
+    expect(item_data[:unit_price]).to be_a(Float)
+
+    expect(item_data).to have_key(:merchant_id)
+    expect(item_data[:merchant_id]).to be_a(Integer)
 
     DatabaseCleaner.clean
   end
@@ -171,6 +199,15 @@ describe "Merchants API", type: :request do
     expect(item_data).to have_key(:name)
     expect(item_data[:name]).to be_a(String)
 
+    expect(item_data).to have_key(:description)
+    expect(item_data[:description]).to be_a(String)
+
+    expect(item_data).to have_key(:unit_price)
+    expect(item_data[:unit_price]).to be_a(Float)
+
+    expect(item_data).to have_key(:merchant_id)
+    expect(item_data[:merchant_id]).to be_a(Integer)
+
     DatabaseCleaner.clean
   end
 
@@ -213,6 +250,15 @@ describe "Merchants API", type: :request do
 
     expect(item_data).to have_key(:name)
     expect(item_data[:name]).to be_a(String)
+
+    expect(item_data).to have_key(:description)
+    expect(item_data[:description]).to be_a(String)
+
+    expect(item_data).to have_key(:unit_price)
+    expect(item_data[:unit_price]).to be_a(Float)
+
+    expect(item_data).to have_key(:merchant_id)
+    expect(item_data[:merchant_id]).to be_a(Integer)
 
     DatabaseCleaner.clean
   end
@@ -257,10 +303,19 @@ describe "Merchants API", type: :request do
     expect(item_data).to have_key(:name)
     expect(item_data[:name]).to be_a(String)
 
+    expect(item_data).to have_key(:description)
+    expect(item_data[:description]).to be_a(String)
+
+    expect(item_data).to have_key(:unit_price)
+    expect(item_data[:unit_price]).to be_a(Float)
+
+    expect(item_data).to have_key(:merchant_id)
+    expect(item_data[:merchant_id]).to be_a(Integer)
+
     DatabaseCleaner.clean
   end
 
-  it "search can find results from created_at date" do
+  it "can search by created_at date" do
     DatabaseCleaner.start
     merchant = Merchant.create!(name: "Molly's Muffins")
 
@@ -300,10 +355,19 @@ describe "Merchants API", type: :request do
     expect(item_data).to have_key(:name)
     expect(item_data[:name]).to be_a(String)
 
+    expect(item_data).to have_key(:description)
+    expect(item_data[:description]).to be_a(String)
+
+    expect(item_data).to have_key(:unit_price)
+    expect(item_data[:unit_price]).to be_a(Float)
+
+    expect(item_data).to have_key(:merchant_id)
+    expect(item_data[:merchant_id]).to be_a(Integer)
+
     DatabaseCleaner.clean
   end
 
-  it "search can find results from updated_at date" do
+  it "can search by updated_at date" do
     DatabaseCleaner.start
     merchant = Merchant.create!(name: "Molly's Muffins")
 
@@ -343,6 +407,15 @@ describe "Merchants API", type: :request do
     expect(item_data).to have_key(:name)
     expect(item_data[:name]).to be_a(String)
 
+    expect(item_data).to have_key(:description)
+    expect(item_data[:description]).to be_a(String)
+
+    expect(item_data).to have_key(:unit_price)
+    expect(item_data[:unit_price]).to be_a(Float)
+
+    expect(item_data).to have_key(:merchant_id)
+    expect(item_data[:merchant_id]).to be_a(Integer)
+    
     DatabaseCleaner.clean
   end
 end
