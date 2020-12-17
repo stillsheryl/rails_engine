@@ -1,8 +1,8 @@
 class RevenueFacade
 
   def self.merchant_total_revenue(merchant_id)
-    revenue = Merchant.find(merchant_id).total_revenue
-    Revenue.new(revenue)
+    merchant = Merchant.find(merchant_id).total_revenue
+    Revenue.new(merchant.revenue)
   end
 
   # def self.total_revenue(quantity)
