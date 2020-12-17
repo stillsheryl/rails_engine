@@ -25,7 +25,6 @@ describe "Merchants API", type: :request do
     expect(merchants.first[:attributes][:id]).to eq(merchant3.id).or(eq(merchant4.id))
     expect(merchants.second[:attributes][:id]).to eq(merchant4.id).or(eq(merchant3.id))
 
-
     merchant = merchants.first
 
     expect(merchant).to have_key(:id)
