@@ -33,7 +33,7 @@ describe MerchantFacade do
     @invoice5 = @merchant2.invoices.create!(customer_id: @customer2.id, status: "shipped")
     @invoice6 = @merchant2.invoices.create!(customer_id: @customer3.id, status: "shipped")
     @invoice7 = @merchant3.invoices.create!(customer_id: @customer1.id, status: "shipped")
-    InvoiceItem.create!(item_id: @tire.id, invoice_id: @invoice1.id, quantity: 1, unit_price: 12.99)
+    InvoiceItem.create!(item_id: @tire.id, invoice_id: @invoice1.id, quantity: 2, unit_price: 12.99)
     InvoiceItem.create!(item_id: @laces.id, invoice_id: @invoice1.id, quantity: 1, unit_price: 4.55)
     InvoiceItem.create!(item_id: @bike.id, invoice_id: @invoice2.id, quantity: 1, unit_price: 799.99)
     InvoiceItem.create!(item_id: @bike.id, invoice_id: @invoice3.id, quantity: 1, unit_price: 799.99)
@@ -58,5 +58,14 @@ describe MerchantFacade do
     expect(merchant.first).to be_an_instance_of(MerchantObject)
     expect(merchant.first.id).to eq(@merchant3.id)
     expect(merchant.first.name).to eq(@merchant3.name)
+  end
+
+  it "returns merchants with most items sold" do
+    merchant = MerchantFacade.merchants_with_most_items_sold(2)
+
+    expect(merchant.count).to eq(2)
+    expect(merchant.first).to be_an_instance_of(MerchantObject)
+    expect(merchant.first.id).to eq(@merchant1.id)
+    expect(merchant.first.name).to eq(@merchant1.name)
   end
 end
