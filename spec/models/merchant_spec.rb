@@ -92,9 +92,10 @@ RSpec.describe Merchant, type: :model do
     end
 
     it "revenue_by_date" do
-      results = @merchant1.revenue_by_date("2012-03-09", "2012-03-14")
+      date_params = {"start"=>"2012-03-09", "end"=>"2012-03-24"}
+      results = Merchant.revenue_by_date(date_params)
 
-
+      expect(results.revenue). to eq(830.52)
     end
   end
 end
