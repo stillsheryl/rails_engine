@@ -33,14 +33,14 @@ RSpec.describe Merchant, type: :model do
       @ring = @merchant3.items.create!(name: "Diamond Ring",
         description: "Frosting for your finger",
         unit_price: 5000.00)
-      @invoice1 = @merchant1.invoices.create!(customer_id: @customer1.id, status: "shipped")
-      @invoice2 = @merchant1.invoices.create!(customer_id: @customer2.id, status: "shipped")
-      @invoice3 = @merchant1.invoices.create!(customer_id: @customer3.id, status: "shipped")
+      @invoice1 = @merchant1.invoices.create!(customer_id: @customer1.id, status: "shipped", created_at: "2012-03-14 13:57:45")
+      @invoice2 = @merchant1.invoices.create!(customer_id: @customer2.id, status: "shipped", created_at: "2012-03-09 13:57:45")
+      @invoice3 = @merchant1.invoices.create!(customer_id: @customer3.id, status: "shipped", created_at: "2012-03-27 01:57:45")
       @invoice4 = @merchant1.invoices.create!(customer_id: @customer3.id, status: "not shipped")
       @invoice5 = @merchant2.invoices.create!(customer_id: @customer2.id, status: "shipped")
       @invoice6 = @merchant2.invoices.create!(customer_id: @customer3.id, status: "shipped")
       @invoice7 = @merchant3.invoices.create!(customer_id: @customer1.id, status: "shipped")
-      InvoiceItem.create!(item_id: @tire.id, invoice_id: @invoice1.id, quantity: 1, unit_price: 12.99)
+      InvoiceItem.create!(item_id: @tire.id, invoice_id: @invoice1.id, quantity: 2, unit_price: 12.99)
       InvoiceItem.create!(item_id: @laces.id, invoice_id: @invoice1.id, quantity: 1, unit_price: 4.55)
       InvoiceItem.create!(item_id: @bike.id, invoice_id: @invoice2.id, quantity: 1, unit_price: 799.99)
       InvoiceItem.create!(item_id: @bike.id, invoice_id: @invoice3.id, quantity: 1, unit_price: 799.99)
@@ -64,7 +64,7 @@ RSpec.describe Merchant, type: :model do
       result3 = @merchant3.total_revenue
 
       expect(result1).to be_an_instance_of(Invoice)
-      expect(result1.revenue).to eq(1617.52)
+      expect(result1.revenue).to eq(1630.51)
 
       expect(result2).to be_an_instance_of(Invoice)
       expect(result2.revenue).to eq(24.98)
@@ -74,7 +74,28 @@ RSpec.describe Merchant, type: :model do
     end
 
     it "most_revenue(limit)" do
-      expect(Merchant.most_revenue(3)).to eq([@merchant3, @merchant1, @merchant2])
+      results = Merchant.most_revenue(3)
+
+      expect(results).to eq([@merchant3, @merchant1, @merchant2])
+      expect(results.first[:name]).to eq(@merchant3.name)
+      expect(results.second[:name]).to eq(@merchant1.name)
+      expect(results.third[:name]).to eq(@merchant2.name)
+    end
+
+    it "most_items_sold" do
+      results = Merchant.most_items_sold(3)
+
+      expect(results).to eq([@merchant1, @merchant2, @merchant3])
+      expect(results.first[:name]).to eq(@merchant1.name)
+      expect(results.second[:name]).to eq(@merchant2.name)
+      expect(results.third[:name]).to eq(@merchant3.name)
+    end
+
+    it "revenue_by_date" do
+      date_params = {"start"=>"2012-03-09", "end"=>"2012-03-24"}
+      results = Merchant.revenue_by_date(date_params)
+
+      expect(results.revenue). to eq(830.52)
     end
   end
 end
