@@ -26,9 +26,9 @@ describe RevenueFacade do
     @ring = @merchant3.items.create!(name: "Diamond Ring",
       description: "Frosting for your finger",
       unit_price: 5000.00)
-    @invoice1 = @merchant1.invoices.create!(customer_id: @customer1.id, status: "shipped")
-    @invoice2 = @merchant1.invoices.create!(customer_id: @customer2.id, status: "shipped")
-    @invoice3 = @merchant1.invoices.create!(customer_id: @customer3.id, status: "shipped")
+    @invoice1 = @merchant1.invoices.create!(customer_id: @customer1.id, status: "shipped", created_at: "2012-03-14 13:57:45")
+    @invoice2 = @merchant1.invoices.create!(customer_id: @customer2.id, status: "shipped", created_at: "2012-03-09 13:57:45")
+    @invoice3 = @merchant1.invoices.create!(customer_id: @customer3.id, status: "shipped", created_at: "2012-03-27 01:57:45")
     @invoice4 = @merchant1.invoices.create!(customer_id: @customer3.id, status: "not shipped")
     @invoice5 = @merchant2.invoices.create!(customer_id: @customer2.id, status: "shipped")
     @invoice6 = @merchant2.invoices.create!(customer_id: @customer3.id, status: "shipped")
@@ -59,11 +59,12 @@ describe RevenueFacade do
     expect(revenue.revenue).to eq(1617.52)
   end
 
-  xit "returns revenue for specified number of merchants" do
-    revenue = RevenueFacade.total_revenue(5)
+  it "returns total revenue for all merchant by date" do
+    date_params = {"start"=>"2012-03-09", "end"=>"2012-03-24"}
+    revenue = RevenueFacade.total_revenue_by_date(date_params)
 
-    expect(revenue).to be_an(Array)
-    expect(revenue.size).to eq(16)
-    expect(revenue.first).to be_an_instance_of(Park)
+    expect(revenue).to be_an_instance_of(Revenue)
+    expect(revenue.id).to eq(nil)
+    expect(revenue.revenue).to eq(817.53)
   end
 end
