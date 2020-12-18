@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe RevenueFacade do
+describe MerchantFacade do
   before :each do
     @merchant1 = Merchant.create!(name: "Ken's Bike Shop")
     @merchant2 = Merchant.create!(name: "Kip's Bookstore")
@@ -33,7 +33,7 @@ describe RevenueFacade do
     @invoice5 = @merchant2.invoices.create!(customer_id: @customer2.id, status: "shipped")
     @invoice6 = @merchant2.invoices.create!(customer_id: @customer3.id, status: "shipped")
     @invoice7 = @merchant3.invoices.create!(customer_id: @customer1.id, status: "shipped")
-    InvoiceItem.create!(item_id: @tire.id, invoice_id: @invoice1.id, quantity: 1, unit_price: 12.99)
+    InvoiceItem.create!(item_id: @tire.id, invoice_id: @invoice1.id, quantity: 2, unit_price: 12.99)
     InvoiceItem.create!(item_id: @laces.id, invoice_id: @invoice1.id, quantity: 1, unit_price: 4.55)
     InvoiceItem.create!(item_id: @bike.id, invoice_id: @invoice2.id, quantity: 1, unit_price: 799.99)
     InvoiceItem.create!(item_id: @bike.id, invoice_id: @invoice3.id, quantity: 1, unit_price: 799.99)
@@ -51,20 +51,21 @@ describe RevenueFacade do
     @invoice7.transactions.create!(credit_card_number: "1234-5678-9012-3456", credit_card_expiration_date: "12/24", result: "success")
   end
 
-  it "returns revenue for single merchant" do
-    revenue = RevenueFacade.merchant_total_revenue(@merchant1.id)
+  it "returns merchants with most revenue" do
+    merchant = MerchantFacade.merchants_with_most_revenue(2)
 
-    expect(revenue).to be_an_instance_of(Revenue)
-    expect(revenue.id).to eq(nil)
-    expect(revenue.revenue).to eq(1617.52)
+    expect(merchant.count).to eq(2)
+    expect(merchant.first).to be_an_instance_of(MerchantObject)
+    expect(merchant.first.id).to eq(@merchant3.id)
+    expect(merchant.first.name).to eq(@merchant3.name)
   end
 
-  it "returns total revenue for all merchant by date" do
-    date_params = {"start"=>"2012-03-09", "end"=>"2012-03-24"}
-    revenue = RevenueFacade.total_revenue_by_date(date_params)
+  it "returns merchants with most items sold" do
+    merchant = MerchantFacade.merchants_with_most_items_sold(2)
 
-    expect(revenue).to be_an_instance_of(Revenue)
-    expect(revenue.id).to eq(nil)
-    expect(revenue.revenue).to eq(817.53)
+    expect(merchant.count).to eq(2)
+    expect(merchant.first).to be_an_instance_of(MerchantObject)
+    expect(merchant.first.id).to eq(@merchant1.id)
+    expect(merchant.first.name).to eq(@merchant1.name)
   end
 end
