@@ -29,9 +29,9 @@ describe "Merchants API", type: :request do
     @ring = @merchant3.items.create!(name: "Diamond Ring",
       description: "Frosting for your finger",
       unit_price: 5000.00)
-    @invoice1 = @merchant1.invoices.create!(customer_id: @customer1.id, status: "shipped")
-    @invoice2 = @merchant1.invoices.create!(customer_id: @customer2.id, status: "shipped")
-    @invoice3 = @merchant1.invoices.create!(customer_id: @customer3.id, status: "shipped")
+    @invoice1 = @merchant1.invoices.create!(customer_id: @customer1.id, status: "shipped", created_at: "2012-03-14 13:57:45")
+    @invoice2 = @merchant1.invoices.create!(customer_id: @customer2.id, status: "shipped", created_at: "2012-03-09 13:57:45")
+    @invoice3 = @merchant1.invoices.create!(customer_id: @customer3.id, status: "shipped", created_at: "2012-03-27 01:57:45")
     @invoice4 = @merchant1.invoices.create!(customer_id: @customer3.id, status: "not shipped")
     @invoice5 = @merchant2.invoices.create!(customer_id: @customer2.id, status: "shipped")
     @invoice6 = @merchant2.invoices.create!(customer_id: @customer3.id, status: "shipped")
@@ -61,26 +61,10 @@ describe "Merchants API", type: :request do
     get "/api/v1/revenue", headers: headers, params: params
 
     json = JSON.parse(response.body, symbolize_names: true)
-    merchants = json[:data]
+    revenue = json[:data]
 
     expect(response).to be_successful
 
-    expect(merchants.count).to eq(3)
-
-    merchant = merchants.first
-
-    expect(merchant).to have_key(:id)
-    expect(merchant[:id]).to be_a(String)
-
-    expect(merchant).to have_key(:type)
-    expect(merchant[:type]).to be_a(String)
-
-    expect(merchant).to have_key(:attributes)
-    expect(merchant[:attributes]).to be_a(Hash)
-
-    merchant_data = merchant[:attributes]
-
-    expect(merchant_data).to have_key(:name)
-    expect(merchant_data[:name]).to be_a(String)
+    expect(revenue[:attributes][:revenue].to_f.round(2)).to eq(4017.49)
   end
 end
