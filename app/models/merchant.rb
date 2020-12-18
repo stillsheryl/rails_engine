@@ -35,13 +35,13 @@ class Merchant < ApplicationRecord
     .limit(limit)
   end
 
-  def revenue_by_date(start_date, end_date)
+  def self.revenue_by_date(date_params)
     Invoice
-    .joins(:transactions, :invoice_items)
     .select("sum(invoice_items.quantity * invoice_items.unit_price) AS revenue")
+    .joins(:transactions, :invoice_items)
     .merge(Transaction.successful)
     .merge(Invoice.shipped)
-    .where("merchant_id = ?", self.id)
+    .where(created_at: Date.parse(date_params["start"]).beginning_of_day..Date.parse(date_params["end"]).end_of_day)
     .reorder("")
     .first
   end
