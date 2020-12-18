@@ -34,4 +34,15 @@ class Merchant < ApplicationRecord
     .order("total_sold DESC")
     .limit(limit)
   end
+
+  def revenue_by_date(start_date, end_date)
+    Invoice
+    .joins(:transactions, :invoice_items)
+    .select("sum(invoice_items.quantity * invoice_items.unit_price) AS revenue")
+    .merge(Transaction.successful)
+    .merge(Invoice.shipped)
+    .where("merchant_id = ?", self.id)
+    .reorder("")
+    .first
+  end
 end
